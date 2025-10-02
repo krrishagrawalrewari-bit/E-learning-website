@@ -25,6 +25,19 @@ otpSchema.pre("save",async function(next){
   await sendVerificationEmail(this.email,this.otp);
   next();
 });
+//Pre save middleware
+//to send emails
+async function sendVerificationEmail(email,otp){
+  try{
+    const mailResponse=await mailSender(email,"Verification email from StudyNotion",otpTemplate(otp));
+    console.log("Email sent successfully:",mailResponse);
+
+  }
+  catch(error){
+    console.log("Error occured while sending mails:",error);
+    throw error;
+  }
+}
 
 // otpSchema.pre("save", async function(next) {
 //   // custom logic here
